@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+using System.IO.Ports;
 using System.Globalization;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
@@ -88,10 +90,34 @@ namespace PackTesterInterface
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void MenuItemConnect_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            GetCOMPorts();
+        }
+
+        #region Helper Funcions
+
+        void GetCOMPorts()
+        {
+            //TODO: clear existing menu items?
+
+            string[] comPortArray = SerialPort.GetPortNames();
+            foreach (var comPort in comPortArray)
+            {
+                //TODO: add menu items
+            }
+
+            if (comPortArray.Count() == 0)
+            {
+                //TODO: need to state that no options are available.
+            }
+        }
+        #endregion
     }
 
     public class MyCellData
