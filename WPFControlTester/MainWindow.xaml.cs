@@ -15,7 +15,7 @@ using System.Globalization;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 
-namespace WPFControlTester
+namespace PackTesterInterface
 {
     public partial class MainWindow : Window
     {
