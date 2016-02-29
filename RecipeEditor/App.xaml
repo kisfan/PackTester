@@ -1,7 +1,8 @@
-﻿<Application x:Class="PackTesterInterface.App"
+﻿<Application x:Class="RecipeEditor.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="MainWindow.xaml">
+             xmlns:local="clr-namespace:RecipeEditor"
+             StartupUri="RecipeEditor.xaml">
     <Application.Resources>
          
     </Application.Resources>
