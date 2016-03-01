@@ -54,9 +54,9 @@ namespace PackTesterInterface
             Data.Add(new MyCellData(23, 3.4));
             Data.Add(new MyCellData(24, 2.8));
 
-            Steps.Add(new Step() { Name = "Step 1: Discharge" });
-            Steps.Add(new Step() { Name = "Step 2: Wait" });
-            Steps.Add(new Step() { Name = "Step 3: Charge" });
+            Steps.Add(new Step() { Name = "Step 1: Discharge", Status = stepStatus.Complete });
+            Steps.Add(new Step() { Name = "Step 2: Wait", Status = stepStatus.Selected });
+            Steps.Add(new Step() { Name = "Step 3: Charge", Status = stepStatus.Incomplete });
 
             FieldsListBox.ItemsSource = Steps;
 
@@ -141,9 +141,39 @@ namespace PackTesterInterface
         #endregion
     }
 
+    public class StepStatusToColourConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((stepStatus)value == stepStatus.Incomplete)
+            {
+                return "#F2F2F2";
+            }
+            else if ((stepStatus)value == stepStatus.Selected)
+            {
+                return "#C2F0D9";
+            }
+
+            return "#F6EEEE";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public enum stepStatus
+    {
+        Complete,
+        Incomplete,
+        Selected,
+    };
+
     public class Step
     {
         public string Name { get; set; }
+        public stepStatus Status { get; set; }
     }
 
     public class MyCellData

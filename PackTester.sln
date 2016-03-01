@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PackTesterInterface", "WPFControlTester\PackTesterInterface.csproj", "{542756B2-6A31-4B2E-A399-9E34912F34C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PackTester.UI", "WPFControlTester\PackTester.UI.csproj", "{542756B2-6A31-4B2E-A399-9E34912F34C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarChart", "KeyhanControls\BarChart.csproj", "{4BA6394B-45B0-4899-AA7D-701C0972E566}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeEditor", "RecipeEditor\RecipeEditor.csproj", "{AF856F3E-A559-49CC-AB9A-F516F0565B7F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PackTester.RecipeEditor", "RecipeEditor\PackTester.RecipeEditor.csproj", "{AF856F3E-A559-49CC-AB9A-F516F0565B7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
