@@ -13,9 +13,9 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <Menu x:Name="menu" Height="20" VerticalAlignment="Top" Width="Auto" Grid.ColumnSpan="2" DockPanel.Dock="Top">
+        <Menu x:Name="MainMenu" Height="20" VerticalAlignment="Top" Width="Auto" Grid.ColumnSpan="2" DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem x:Name="menuItemConnect" Header="_Connect" Click="MenuItemConnect_Click">
+                <MenuItem x:Name="menuItemConnect" Header="_Connect">
                     <MenuItem.Icon>
                         <Image Source="D:\Documents\PackTester\Icons\connect.ico" />
                     </MenuItem.Icon>

@@ -16,11 +16,14 @@ using System.IO.Ports;
 using System.Globalization;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace PackTesterInterface
 {
     public partial class MainWindow : Window
     {
+        static SerialPort serialPort;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -29,41 +32,31 @@ namespace PackTesterInterface
             Data = new ObservableCollection<MyCellData>();
             Steps = new ObservableCollection<Step>();
 
-            Data.Add(new MyCellData(1, 3.75));
-            Data.Add(new MyCellData(2, 3.41));
-            Data.Add(new MyCellData(3, 3.2));
-            Data.Add(new MyCellData(4, 3.14));
-            Data.Add(new MyCellData(5, 3.54));
-            Data.Add(new MyCellData(6, 3.28));
-            Data.Add(new MyCellData(7, 3.4));
-            Data.Add(new MyCellData(8, 3.4));
-            Data.Add(new MyCellData(9, 3.4));
-            Data.Add(new MyCellData(10, 3.4));
-            Data.Add(new MyCellData(11, 3.4));
-            Data.Add(new MyCellData(12, 3.4));
-            Data.Add(new MyCellData(13, 3.4));
-            Data.Add(new MyCellData(14, 3.4));
-            Data.Add(new MyCellData(15, 2.8));
-            Data.Add(new MyCellData(16, 3.65));
-            Data.Add(new MyCellData(17, 3.4));
-            Data.Add(new MyCellData(18, 3.4));
-            Data.Add(new MyCellData(19, 3.4));
-            Data.Add(new MyCellData(20, 3.4));
-            Data.Add(new MyCellData(21, 3.4));
-            Data.Add(new MyCellData(22, 3.4));
-            Data.Add(new MyCellData(23, 3.4));
-            Data.Add(new MyCellData(24, 2.8));
+            //temporarily fill 24 cells with data
+            for (int k = 1; k <= 24; k++)
+            {
+                Data.Add(new MyCellData(k, 3.2));
+            }
 
+            //create some fake steps
             Steps.Add(new Step() { Name = "Step 1: Discharge", Status = stepStatus.Complete });
             Steps.Add(new Step() { Name = "Step 2: Wait", Status = stepStatus.Selected });
             Steps.Add(new Step() { Name = "Step 3: Charge", Status = stepStatus.Incomplete });
 
+            //Bind Steps StackPanel to steps list
             FieldsListBox.ItemsSource = Steps;
 
+            //Timer & stopwatch
+            Stopwatch stopWatch;
             System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += dispatcherTimer_Tick;
+
+            //TODO: Move this to whatever button starts a test
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
+
+            //Theading
+            System.Threading.Thread processThread;
         }
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
@@ -111,9 +104,17 @@ namespace PackTesterInterface
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
         }
 
-        private void MenuItemConnect_Click(object sender, RoutedEventArgs e)
+        private void ConnectToSerial(string comName)
         {
+            serialPort = new SerialPort(comName, 9600);
 
+            serialPort.Open();
+            if (serialPort.IsOpen)
+            {
+                //We have successfully connected. 
+                //TODO: Change menu to say "Disconnect", and have no sub-menu items.
+
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -127,10 +128,17 @@ namespace PackTesterInterface
         {
             //TODO: clear existing menu items?
 
+            //Add to a sub item
+            MenuItem comMenuItem = new MenuItem();
+            MenuItem File = (MenuItem)this.MainMenu.Items[0];
+            MenuItem Connect = (MenuItem)File.Items[0];
+
             string[] comPortArray = SerialPort.GetPortNames();
             foreach (var comPort in comPortArray)
             {
-                //TODO: add menu items
+                comMenuItem.Header = comPort;
+                comMenuItem.Click += ComMenuItem_Click;
+                Connect.Items.Add(comMenuItem);
             }
 
             if (comPortArray.Count() == 0)
@@ -138,29 +146,13 @@ namespace PackTesterInterface
                 //TODO: need to state that no options are available.
             }
         }
+
+        private void ComMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string comName = ((MenuItem)sender).Header.ToString();
+            ConnectToSerial(comName);
+        }
         #endregion
-    }
-
-    public class StepStatusToColourConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if ((stepStatus)value == stepStatus.Incomplete)
-            {
-                return "#F2F2F2";
-            }
-            else if ((stepStatus)value == stepStatus.Selected)
-            {
-                return "#C2F0D9";
-            }
-
-            return "#F6EEEE";
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public enum stepStatus
@@ -199,23 +191,26 @@ namespace PackTesterInterface
         }
     }
 
-    #region Converter
-    public class Bool2Visibility : IValueConverter
+    #region Converters
+    public class StepStatusToColourConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Visibility)
-                return (Visibility)value == Visibility.Visible ? true : false;
-            else
-                throw new NotImplementedException();
+            if ((stepStatus)value == stepStatus.Incomplete)
+            {
+                return "#F2F2F2";
+            }
+            else if ((stepStatus)value == stepStatus.Selected)
+            {
+                return "#C2F0D9";
+            }
+
+            return "#F6EEEE";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is bool)
-                return (bool)value ? Visibility.Visible : Visibility.Collapsed;
-            else
-                throw new NotImplementedException();
+            throw new NotImplementedException();
         }
     }
     #endregion Converter
