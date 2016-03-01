@@ -27,6 +27,7 @@ namespace PackTesterInterface
             this.DataContext = this;
 
             Data = new ObservableCollection<MyCellData>();
+            Steps = new ObservableCollection<Step>();
 
             Data.Add(new MyCellData(1, 3.75));
             Data.Add(new MyCellData(2, 3.41));
@@ -52,6 +53,12 @@ namespace PackTesterInterface
             Data.Add(new MyCellData(22, 3.4));
             Data.Add(new MyCellData(23, 3.4));
             Data.Add(new MyCellData(24, 2.8));
+
+            Steps.Add(new Step() { Name = "Step 1: Discharge" });
+            Steps.Add(new Step() { Name = "Step 2: Wait" });
+            Steps.Add(new Step() { Name = "Step 3: Charge" });
+
+            FieldsListBox.ItemsSource = Steps;
 
             System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += dispatcherTimer_Tick;
@@ -80,6 +87,20 @@ namespace PackTesterInterface
             {
                 _data = value;
                 Notify("Data");
+            }
+        }
+
+        private ObservableCollection<Step> _steps = null;
+        public ObservableCollection<Step> Steps
+        {
+            get
+            {
+                return _steps;
+            }
+            set
+            {
+                _steps = value;
+                Notify("Steps");
             }
         }
 
@@ -118,6 +139,11 @@ namespace PackTesterInterface
             }
         }
         #endregion
+    }
+
+    public class Step
+    {
+        public string Name { get; set; }
     }
 
     public class MyCellData

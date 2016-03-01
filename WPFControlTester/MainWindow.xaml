@@ -24,11 +24,15 @@
                         ItemsSource="{Binding Path=Data, RelativeSource={RelativeSource AncestorType=Window}}" Margin="0,199,0,0" Foreground="#FFCCFFE3">
         </controls:BarChart>
         <Border Grid.Column="1" BorderBrush="DarkGray" BorderThickness="1" Margin="10,25,10,10">
-            <StackPanel Margin="5" Width="200">
-                <Label x:Name="label" Content="Step 1: Charge" Background="#FFEEEEEE" BorderBrush="Black" BorderThickness="1"/>
-                <Label x:Name="label_Copy" Content="Step 2: Pause" Background="#FFEEEEEE" BorderBrush="Black" BorderThickness="1,0,1,1"/>
-                <Label x:Name="label_Copy1" Content="Step 3: Discharge" Background="#FFEEEEEE" BorderBrush="Black" BorderThickness="1,0,1,1"/>
-            </StackPanel>
+            <ListBox x:Name="FieldsListBox">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="5" Width="200">
+                            <Label Content="{Binding Name}" VerticalAlignment="Center" Background="#FFEEEEEE" BorderBrush="Black" BorderThickness="1"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Border>
         <Label x:Name="labelPackVoltage" Content="87.24 V" HorizontalAlignment="Left" Height="65" Margin="35,53,0,0" VerticalAlignment="Top" Width="184" FontSize="48" FontFamily="Calibri" BorderBrush="#FF000E99" Background="#FF2F2C38" Foreground="#FF85B2B2"/>
         <Label x:Name="labelCurrent" Content="275 A" HorizontalAlignment="Left" Height="63" Margin="296,53,0,0" VerticalAlignment="Top" Width="141" FontSize="48" FontFamily="Calibri" BorderBrush="#FF000E99" Background="#FF2F2C38" Foreground="#FFFEF7C8" RenderTransformOrigin="0.5,0.5"/>
