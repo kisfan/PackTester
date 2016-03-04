@@ -31,7 +31,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="5" Width="200">
-                            <Label Content="{Binding Name}" VerticalAlignment="Center" Background="{Binding Status, Converter={StaticResource StepStatusToColourConverter}}" BorderBrush="Black" BorderThickness="1"/>
+                            <Label Content="{Binding Operation}" VerticalAlignment="Center" Background="{Binding Status, Converter={StaticResource StepStatusToColourConverter}}" BorderBrush="Black" BorderThickness="1"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

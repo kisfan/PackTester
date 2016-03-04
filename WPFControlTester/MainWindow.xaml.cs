@@ -27,7 +27,7 @@ namespace PackTesterInterface
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
 
             Data = new ObservableCollection<MyCellData>();
             Steps = new ObservableCollection<Step>();
@@ -39,9 +39,11 @@ namespace PackTesterInterface
             }
 
             //create some fake steps
-            Steps.Add(new Step() { Name = "Step 1: Discharge", Status = stepStatus.Complete });
-            Steps.Add(new Step() { Name = "Step 2: Wait", Status = stepStatus.Selected });
-            Steps.Add(new Step() { Name = "Step 3: Charge", Status = stepStatus.Incomplete });
+            Steps.Add(new Step(stepType.Discharge, 100, "voltage", 2.8));
+            Steps.Add(new Step(stepType.Wait, 300, "voltage", 2.8, "time", 60));
+            Steps.Add(new Step(stepType.Charge, 200, "voltage", 3.65));
+            Steps[0].Status = stepStatus.Completed;
+            Steps[1].Status = stepStatus.Selected;
 
             //Bind Steps StackPanel to steps list
             FieldsListBox.ItemsSource = Steps;
@@ -130,7 +132,7 @@ namespace PackTesterInterface
 
             //Add to a sub item
             MenuItem comMenuItem = new MenuItem();
-            MenuItem File = (MenuItem)this.MainMenu.Items[0];
+            MenuItem File = (MenuItem)MainMenu.Items[0];
             MenuItem Connect = (MenuItem)File.Items[0];
 
             string[] comPortArray = SerialPort.GetPortNames();
@@ -153,19 +155,6 @@ namespace PackTesterInterface
             ConnectToSerial(comName);
         }
         #endregion
-    }
-
-    public enum stepStatus
-    {
-        Complete,
-        Incomplete,
-        Selected,
-    };
-
-    public class Step
-    {
-        public string Name { get; set; }
-        public stepStatus Status { get; set; }
     }
 
     public class MyCellData
@@ -196,7 +185,7 @@ namespace PackTesterInterface
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((stepStatus)value == stepStatus.Incomplete)
+            if ((stepStatus)value == stepStatus.Incompleted)
             {
                 return "#F2F2F2";
             }

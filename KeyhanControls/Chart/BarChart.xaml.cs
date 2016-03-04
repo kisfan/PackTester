@@ -24,7 +24,7 @@ namespace KeyhanControls.Chart
         public BarChart()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
         }
 
         #region Dependency properties
@@ -313,7 +313,7 @@ namespace KeyhanControls.Chart
             Draw();
         }
 
-        private void SizeChanged(object sender, SizeChangedEventArgs e)
+        private new void SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Refresh();
         }
